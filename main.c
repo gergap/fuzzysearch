@@ -11,7 +11,7 @@
 int main(int argc, char *argv[])
 {
     struct tagfile tf;
-    char filename[PATH_MAX] = "/home/gergap/work/embeddedstack/.git/tags";
+    char filename[PATH_MAX] = "tags";
     char search[256] = "";
     int len = 0;
     struct list l;
