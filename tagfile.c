@@ -111,7 +111,8 @@ int tagfile_load(struct tagfile *tf, const char *filename)
     }
 
     while(!feof(f)) {
-        fgets(line, sizeof(line), f);
+        tab = fgets(line, sizeof(line), f);
+        if (tab == NULL) break; /* handle error */
         if (line[0] == '!') continue; /* skip comments */
         tab = strchr(line, '\t');
         if (tab == NULL) continue; /* skip invalid line */
