@@ -8,7 +8,6 @@
 void list_add(struct list *l, int metric, int index)
 {
     int i = 0;
-    int j;
     int insert = 0;
     int end;
 
