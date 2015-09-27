@@ -140,6 +140,7 @@ int tagfile_search(struct tagfile *tf, const char *search, struct list *l)
     for (i = 0; i < tf->num_tags; ++i) {
         if ((tf->tags[i].lettermask & lettermask) == lettermask) {
             m = string_metric(search, tf->tags[i].tagname);
+            printf("%i, %s\n", m, tf->tags[i].tagname);
             if (m >= THRESHOLD) list_add(l, m, i);
             matches++;
         }

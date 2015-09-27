@@ -15,12 +15,14 @@ int main(int argc, char *argv[])
     char search[256] = "";
     int len = 0;
     struct list l;
-    int ch;
     struct timespec start, end;
-    struct tag *t;
-    int i;
     bool exit = false;
     int ret;
+#ifdef HAVE_CURSES
+    struct tag *t;
+    int ch;
+    int i;
+#endif
 
     if (argc > 1) {
         strncpy(filename, argv[1], sizeof(filename));
@@ -33,11 +35,14 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+#ifdef HAVE_CURSES
     initscr();
     raw();
     printw("Input: ");
+#endif
 
     do {
+#ifdef HAVE_CURSES
         ch = getch();
         clear();
         /* process input */
@@ -59,6 +64,15 @@ int main(int argc, char *argv[])
         }
         /* output input */
         mvprintw(0, 0, "Input: %s (len=%i)", search, len);
+#else
+        printf("Input: ");
+        fgets(search, sizeof(search), stdin);
+        len = strlen(search) - 1; /* eat \n */
+        search[len] = 0;
+        if (strcmp(search, "exit") == 0) exit = true;
+        /* output input */
+        printf("Input: %s (len=%i)\n", search, len);
+#endif
 
         if (len < 2) continue;
 
@@ -68,6 +82,7 @@ int main(int argc, char *argv[])
         clock_gettime(CLOCK_MONOTONIC_RAW, &end);
 
         /* output result */
+#ifdef HAVE_CURSES
         for (i = 0; i < l.len; ++i) {
             t = tagfile_get(&tf, l.el[i].index);
             mvprintw(i+1, 0, "%s (score=%i, index=%i)", t->tagname, l.el[i].metric, l.el[i].index);
@@ -77,9 +92,12 @@ int main(int argc, char *argv[])
         i++;
         mvprintw(i++, 0, "time: %ld us\n", end.tv_nsec / 1000);
         mvprintw(i++, 0, "Press <Esc> to exit.\n");
+#endif
     } while(!exit);
 
+#ifdef HAVE_CURSES
     endwin();
+#endif
 
     tagfile_clear(&tf);
 
