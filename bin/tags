@@ -1,0 +1,43 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+LIST_H_I2OIYNOT	../list.h	2;"	d	language:C++
+LIST_LEN	../list.h	7;"	d	language:C++
+MEM_STEP_SIZE	../tagfile.c	12;"	d	language:C	file:
+METRIC_H_J0NKJB96	../metric.h	2;"	d	language:C++
+TAGFILE_H_YADXKKLJ	../tagfile.h	2;"	d	language:C++
+THRESHOLD	../tagfile.c	14;"	d	language:C	file:
+compute_lettermask	../tagfile.c	/^static uint32_t compute_lettermask(const char *text)$/;"	f	language:C	file:
+countof	../tagfile.c	10;"	d	language:C	file:
+el	../list.h	/^    struct listel el[LIST_LEN];$/;"	m	language:C++	struct:list	typeref:struct:list::listel
+g_tf	../test/test_tagfile.c	/^static struct tagfile g_tf;$/;"	v	language:C	typeref:struct:tagfile	file:
+index	../list.h	/^    int index;$/;"	m	language:C++	struct:listel
+len	../list.h	/^    int len;$/;"	m	language:C++	struct:list
+lettermask	../tagfile.h	/^    uint32_t lettermask; \/**< bitmask of used letters. *\/$/;"	m	language:C++	struct:tag
+list	../list.h	/^struct list {$/;"	s	language:C++
+list_add	../list.c	/^void list_add(struct list *l, int metric, int index)$/;"	f	language:C
+listel	../list.h	/^struct listel {$/;"	s	language:C++
+main	../main.c	/^int main(int argc, char *argv[])$/;"	f	language:C
+metric	../list.h	/^    int metric;$/;"	m	language:C++	struct:listel
+num_tags	../tagfile.h	/^    size_t num_tags;  \/**< number of used tags *\/$/;"	m	language:C++	struct:tagfile
+register_tests	../test/test_tagfile.c	/^void register_tests()$/;"	f	language:C
+size_tags	../tagfile.h	/^    size_t size_tags; \/**< size of tag array (elements, not bytes) *\/$/;"	m	language:C++	struct:tagfile
+string_metric	../metric.c	/^int string_metric(const char *a, const char *b)$/;"	f	language:C
+tag	../tagfile.h	/^struct tag {$/;"	s	language:C++
+tag_clear	../tagfile.c	/^void tag_clear(struct tag *tag)$/;"	f	language:C
+tag_init	../tagfile.c	/^void tag_init(struct tag *tag, const char *name)$/;"	f	language:C
+tagfile	../tagfile.h	/^struct tagfile {$/;"	s	language:C++
+tagfile_add_tag	../tagfile.c	/^int tagfile_add_tag(struct tagfile *tf, const char *name)$/;"	f	language:C
+tagfile_clear	../tagfile.c	/^void tagfile_clear(struct tagfile *tf)$/;"	f	language:C
+tagfile_get	../tagfile.c	/^struct tag *tagfile_get(struct tagfile *tf, int index)$/;"	f	language:C
+tagfile_init	../tagfile.c	/^void tagfile_init(struct tagfile *tf)$/;"	f	language:C
+tagfile_load	../tagfile.c	/^int tagfile_load(struct tagfile *tf, const char *filename)$/;"	f	language:C
+tagfile_search	../tagfile.c	/^int tagfile_search(struct tagfile *tf, const char *search, struct list *l)$/;"	f	language:C
+tagname	../tagfile.h	/^    char *tagname;       \/**< the tagname of a tag. *\/$/;"	m	language:C++	struct:tag
+tags	../tagfile.h	/^    struct tag *tags;$/;"	m	language:C++	struct:tagfile	typeref:struct:tagfile::tag
+test_cleanup	../test/test_tagfile.c	/^void test_cleanup()$/;"	f	language:C
+test_init	../test/test_tagfile.c	/^void test_init()$/;"	f	language:C
+test_tagfile_search	../test/test_tagfile.c	/^void test_tagfile_search()$/;"	f	language:C
