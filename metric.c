@@ -3,6 +3,9 @@
 
 /** Computes the string metric for the given strings.
  *
+ * The algorithm used is from this site:
+ * http://www.catalysoft.com/articles/strikeamatch.html
+ *
  * a: first string
  * b: second string
  * f(x): returns the set of adjacent letter pairs of string x.

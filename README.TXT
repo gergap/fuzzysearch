@@ -34,3 +34,6 @@ Known limitations:
 * Currently the lettermask only works for lower-case letters.
 * The string metric does no apply any toupper/tolower conversion to make it case insensitive.
 
+References:
+* http://www.catalysoft.com/articles/strikeamatch.html
+
