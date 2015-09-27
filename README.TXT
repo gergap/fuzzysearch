@@ -17,10 +17,10 @@ Step 2: The tags containing the requested letters get score using a special
 string metric for approximate string matching. See comments in metric.c.
 The operations scales with O(n*n'), where n and n' are the length of the
 compared strings.
-The implementation takes core of being fast by avoiding memory allocations
+The implementation takes care of being fast by avoiding memory allocations
 and string copies.
 
-Step 3: The computed score is added to a short list of result with highest scores.
+Step 3: The computed score is added to a short list of results with highest scores.
 This list is sorted by score and limited to 10 elements currently.
 This implementation is stupid at the moment, but OK for such short lists.
 
