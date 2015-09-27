@@ -106,7 +106,7 @@ int tagfile_load(struct tagfile *tf, const char *filename)
     char *tab;
 
     if (f == NULL) {
-        fprintf(stderr, "Could not open file '%s': %s", filename, strerror(errno));
+        fprintf(stderr, "Could not open file '%s': %s\n", filename, strerror(errno));
         return -1;
     }
 
@@ -141,7 +141,9 @@ int tagfile_search(struct tagfile *tf, const char *search, struct list *l)
     for (i = 0; i < tf->num_tags; ++i) {
         if ((tf->tags[i].lettermask & lettermask) == lettermask) {
             m = string_metric(search, tf->tags[i].tagname);
+#ifdef _DEBUG
             printf("%i, %s\n", m, tf->tags[i].tagname);
+#endif
             if (m >= THRESHOLD) list_add(l, m, i);
             matches++;
         }
