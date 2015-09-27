@@ -21,37 +21,38 @@
  * This implementation avoids creating lists of letter pairs to compute the metric.
  * Instead it iterates just over the strings and compares the letter pairs in place.
  *
- * @param a first string
- * @param b second string to compare with
+ * @param data data to compare for query
+ * @param query query string
  *
  * @return a value between 0..1000 indicating the likelihood of a match.
  * or -1 in case of an error.
  */
-int string_metric(const char *a, const char *b)
+int string_metric(const char *data, const char *query)
 {
-    int lena = strlen(a);
-    int lenb = strlen(b);
+    int lendata = strlen(data);
+    int lenquery = strlen(query);
     int i = 0;
     int j = 0;
     char a1, a2;
     char b1, b2;
-    int n = lena + lenb - 2; /* |f(a)| + |f(b)| */
+    int n = lendata + lenquery - 2; /* |f(a)| + |f(b)| */
     int m = 0; /* matches */
 
     /* sanity check: both strings must be at least two letters long */
-    if (lena < 2 || lenb < 2) return -1;
+    if (lendata < 2 || lenquery < 2) return -1;
 
-    a2 = a[i++];
-    while (a[i] != 0) {
+    a2 = query[i++];
+    while (query[i] != 0) {
         a1 = a2;
-        a2 = a[i++];
+        a2 = query[i++];
         j = 0;
-        b2 = b[j++];
-        while (b[j] != 0) {
+        b2 = data[j++];
+        while (data[j] != 0) {
             b1 = b2;
-            b2 = b[j++];
+            b2 = data[j++];
             if (a1 == b1 && a2 == b2) {
                 m++;
+                break; /* count each occurance of pair in data only one time */
             }
         }
     }
