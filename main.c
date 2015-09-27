@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
         }
         end.tv_sec -= start.tv_sec;
         end.tv_nsec -= start.tv_nsec;
-        if (i == 0) i = 1;
+        i++;
         mvprintw(i++, 0, "time: %ld us\n", end.tv_nsec / 1000);
         mvprintw(i++, 0, "Press <Esc> to exit.\n");
     } while(!exit);
