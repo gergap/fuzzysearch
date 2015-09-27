@@ -10,6 +10,8 @@
 #define countof(x) (sizeof((x)) / sizeof((x)[0]))
 /* step size for reallocating memory */
 #define MEM_STEP_SIZE 1000
+/* define search result threshold, we don't report result below this */
+#define THRESHOLD 100 /* 10% matching */
 
 struct tag {
     char *tagname;
@@ -184,26 +186,19 @@ void tagfile_search(struct tagfile *tf, const char *search)
     size_t i;
     size_t matches = 0;
     int m;
-    int max = 0;
-    int imax;
     struct list l = { 0 };
 
     for (i = 0; i < tf->num_tags; ++i) {
         if ((tf->tags[i].lettermask & lettermask) == lettermask) {
             m = string_metric(search, tf->tags[i].tagname);
-            if (m > max) {
-                max = m;
-                imax = i;
-            }
-            list_add(&l, m, i);
+            if (m >= THRESHOLD) list_add(&l, m, i);
             matches++;
         }
     }
 
-    printf("search: %s, %zu matches\n", search, matches);
-    printf("highest ranking: %i: %s\n", max, tf->tags[imax].tagname);
+    printf("search: %s, %zu matches (letters)\n", search, matches);
     for (i = 0; i < l.len; ++i) {
-        printf("rank: %i, index: %i, text: %s\n", l.el[i].m, l.el[i].i, tf->tags[l.el[i].i].tagname);
+        printf("score: %i, index: %i, text: %s\n", l.el[i].m, l.el[i].i, tf->tags[l.el[i].i].tagname);
     }
 }
 
