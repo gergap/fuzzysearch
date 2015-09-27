@@ -141,6 +141,10 @@ struct list {
     struct listel el[LIST_LEN];
 };
 
+/* stupid simple priority list.
+ * we only use this for very short lists,
+ * so O(n) doesn't hurt much here.
+ */
 void list_add(struct list *l, int max, int index)
 {
     int i = 0;
@@ -160,9 +164,7 @@ void list_add(struct list *l, int max, int index)
         /* insert element */
         end = l->len;
         if (end == LIST_LEN) end--;
-        for (j = end; j > i; j--) {
-            l->el[j] = l->el[j-1];
-        }
+        memmove(&l->el[i+1], &l->el[i], sizeof(struct listel)*(end-i));
         l->el[i].m = max;
         l->el[i].i = index;
         if (l->len < LIST_LEN) l->len++;
