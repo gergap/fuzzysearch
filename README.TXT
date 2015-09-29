@@ -29,8 +29,6 @@ Memory: This implementation only requires the memory of all tagnames +
 So this is very resource saving and fast.
 
 Known limitations:
-* Currently the metric code does not create a unique set of letter pairs,
-  so if pair is contained multiple times in a string it gets counted multiple times.
 * Currently the lettermask only works for lower-case letters.
 * The string metric does no apply any toupper/tolower conversion to make it case insensitive.
 

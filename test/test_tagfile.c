@@ -11,6 +11,7 @@ void test_tagfile_search()
     int index;
     struct tag *t;
 
+    /* searching for an expected symbol */
     ret = tagfile_search(&g_tf, "ta_se", &l);
     UVERIFY(ret > 0);
     index = l.el[0].index;
@@ -18,6 +19,12 @@ void test_tagfile_search()
     UVERIFY(t != NULL);
     UCOMPARESTR(t->tagname, "tagfile_search");
 
+    /* repeated letters pairs should not be counted twice*/
+    ret = tagfile_search(&g_tf, "tttttttttttttttt", &l);
+    UVERIFY(ret > 0);
+    UVERIFY(l.el[0].metric <= 1000);
+
+    /* performance measurement */
     UBENCHMARK {
         tagfile_search(&g_tf, "ta_se", &l);
     }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <errno.h>
 #include <assert.h>
 #include "tagfile.h"
@@ -12,6 +13,8 @@
 #define MEM_STEP_SIZE 1000
 /* define search result threshold, we don't report result below this */
 #define THRESHOLD 100 /* 10% matching */
+/* define maximum number of letter pairs per search query */
+#define MAX_PAIRS 50
 
 /* computes a bitmask reflecting the used letters in string \c text. */
 static uint32_t compute_lettermask(const char *text)
@@ -130,17 +133,65 @@ int tagfile_load(struct tagfile *tf, const char *filename)
     return ret;
 }
 
+/** Constructs a new query string with unique letter pairs. */
+static char *tagfile_simplify_query(const char *query)
+{
+    static char pairs[MAX_PAIRS][2];
+    int num_pairs = 0;
+    int pos = 0;
+    int i;
+    bool found;
+    char *result;
+
+    /* sanity check */
+    if (query == NULL || query[0] == 0) return NULL;
+
+    /* iterate over all letter pairs */
+    while (query[pos+1] != 0 && num_pairs < MAX_PAIRS) {
+        found = false;
+        /* search for pair */
+        for (i = 0; i < num_pairs; ++i) {
+            if (pairs[i][0] == query[pos] && pairs[i][1] == query[pos+1]) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            /* add pair */
+            pairs[num_pairs][0] = query[pos];
+            pairs[num_pairs][1] = query[pos+1];
+            num_pairs++;
+        }
+        pos++;
+    }
+
+    /* reconstruct query with unique letter pairs */
+    result = malloc(num_pairs + 2);
+    if (result) {
+        for (i = 0; i < num_pairs; ++i) {
+            result[i] = pairs[i][0];
+        }
+        result[i] = pairs[i-1][1];
+        i++;
+        result[i] = 0;
+    }
+    return result;
+}
+
 int tagfile_search(struct tagfile *tf, const char *search, struct list *l)
 {
     uint32_t lettermask = compute_lettermask(search);
     size_t i;
     size_t matches = 0;
     int m;
+    char *query = tagfile_simplify_query(search);
+
+    if (query == NULL) return -1;
 
     l->len = 0;
     for (i = 0; i < tf->num_tags; ++i) {
         if ((tf->tags[i].lettermask & lettermask) == lettermask) {
-            m = string_metric(tf->tags[i].tagname, search);
+            m = string_metric(tf->tags[i].tagname, query);
 #ifdef _DEBUG
             printf("%i, %s\n", m, tf->tags[i].tagname);
 #endif
@@ -148,6 +199,8 @@ int tagfile_search(struct tagfile *tf, const char *search, struct list *l)
             matches++;
         }
     }
+
+    free(query);
 
 #if 0
     printf("search: %s, %zu matches (letters)\n", search, matches);
